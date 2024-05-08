@@ -2,9 +2,9 @@ from typing import Optional, Union
 
 import torch
 
-import utils
-from evaluation.api.registry import register_model
-from evaluation.models.huggingface import HFLM
+from . import utils
+from ..api.registry import register_model
+from .huggingface import HFLM
 
 
 @register_model("mamba_ssm")

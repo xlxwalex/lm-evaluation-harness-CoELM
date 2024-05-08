@@ -5,7 +5,7 @@ import numpy
 import transformers
 from tqdm import tqdm
 
-import utils
+
 from .. import utils
 from ..api.instance import Instance
 from ..api.model import LM

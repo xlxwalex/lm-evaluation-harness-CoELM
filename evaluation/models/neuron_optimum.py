@@ -13,7 +13,6 @@ from tqdm import tqdm
 from transformers import GenerationConfig
 from transformers.generation import StoppingCriteriaList
 
-import utils
 from .. import utils
 from ..api.model import TemplateLM
 from ..api.registry import register_model

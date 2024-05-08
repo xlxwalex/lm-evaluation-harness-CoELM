@@ -564,7 +564,7 @@ class CoELM(TemplateLM):
                 ).logits
             else:
                 assert self.AUTO_MODEL_CLASS == transformers.AutoModelForCausalLM
-                logits = self.proxy_model(inps)
+                logits = self.model(inps)
                 return logits
 
     def _model_generate(self, context, max_length, stop, **generation_kwargs):

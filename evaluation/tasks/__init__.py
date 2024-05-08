@@ -4,7 +4,7 @@ import os
 from functools import partial
 from typing import Dict, List, Mapping, Optional, Union
 
-from evaluation import utils
+from .. import utils
 from ..api.task import ConfigurableTask, Task
 
 

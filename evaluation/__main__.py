@@ -7,7 +7,6 @@ from functools import partial
 from typing import Union
 
 from . import evaluator, utils
-from .evaluator import request_caching_arg_to_dict
 from .logging import EvaluationTracker, WandbLogger
 from .tasks import TaskManager
 from .utils import handle_non_serializable, make_table, simple_parse_args_string
@@ -340,7 +339,7 @@ def cli_evaluate(args: Union[argparse.Namespace, None] = None) -> None:
 
     eval_logger.info(f"Selected Tasks: {task_names}")
 
-    request_caching_args = request_caching_arg_to_dict(
+    request_caching_args = evaluator.request_caching_arg_to_dict(
         cache_requests=args.cache_requests
     )
 

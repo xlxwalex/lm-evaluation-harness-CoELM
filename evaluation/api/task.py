@@ -28,7 +28,7 @@ from tqdm import tqdm
 from .. import utils
 from . import samplers
 from .instance import Instance, OutputType
-from .metrics import bits_per_byte, mean, weighted_perplexity
+from . import metrics as api_metrics
 from .registry import (
     AGGREGATION_REGISTRY,
     DEFAULT_METRIC_REGISTRY,
@@ -1518,9 +1518,9 @@ class PerplexityTask(Task):
 
     def aggregation(self) -> dict:
         return {
-            "word_perplexity": weighted_perplexity,
-            "byte_perplexity": weighted_perplexity,
-            "bits_per_byte": bits_per_byte,
+            "word_perplexity": api_metrics.weighted_perplexity,
+            "byte_perplexity": api_metrics.weighted_perplexity,
+            "bits_per_byte": api_metrics.bits_per_byte,
         }
 
     @classmethod

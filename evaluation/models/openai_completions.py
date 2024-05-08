@@ -6,7 +6,6 @@ from typing import List, Literal, Optional, Tuple
 
 from tqdm import tqdm
 
-import utils
 from .. import utils
 from ..api.model import LM, TemplateLM
 from ..api.registry import register_model

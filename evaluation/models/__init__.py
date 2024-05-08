@@ -10,7 +10,6 @@ from . import (
     openai_completions,
     optimum_lm,
     textsynth,
-    vllm_causallms,
     coelm
 )
 

@@ -9,9 +9,10 @@ from typing import TYPE_CHECKING, List, Optional, Union
 import numpy as np
 import torch
 
-import api.metrics
-import api.registry
-import models
+from .api import model as api_model
+from .api import metrics as api_metrics
+from .api import registry as api_registry
+from . import models
 from .caching.cache import delete_cache
 from .evaluator_utils import (
     consolidate_results,
@@ -165,7 +166,7 @@ def simple_evaluate(
             eval_logger.info(
                 f"Initializing {model} model, with arguments: {model_args}"
             )
-            lm = api.registry.get_model(model).create_from_arg_obj(
+            lm = api_registry.get_model(model).create_from_arg_obj(
                 model_args,
                 {
                     "batch_size": batch_size,
@@ -178,7 +179,7 @@ def simple_evaluate(
             eval_logger.info(
                 f"Initializing {model} model, with arguments: {simple_parse_args_string(model_args)}"
             )
-            lm = api.registry.get_model(model).create_from_arg_string(
+            lm = api_registry.get_model(model).create_from_arg_string(
                 model_args,
                 {
                     "batch_size": batch_size,
@@ -187,14 +188,14 @@ def simple_evaluate(
                 },
             )
     else:
-        if not isinstance(model, api.model.LM):
+        if not isinstance(model, api_model.LM):
             raise TypeError
         eval_logger.info("Using pre-initialized model")
         lm = model
 
     if use_cache is not None:
         eval_logger.info(f"Using cache at {use_cache + '_rank' + str(lm.rank) + '.db'}")
-        lm = api.model.CachingLM(
+        lm = api_model.CachingLM(
             lm,
             use_cache
             # each rank receives a different cache db.
@@ -547,17 +548,17 @@ def evaluate(
                     # compute group's pooled metric and stderr
                     results[group][
                         metric
-                    ] = api.metrics.aggregate_subtask_metrics(metrics, sizes)
+                    ] = api_metrics.aggregate_subtask_metrics(metrics, sizes)
                     # TODO: calculate grouped metric using aggregation fn
                     if "N/A" in stderrs:
                         results[group][stderr] = "N/A"
                     else:
                         results[group][
                             stderr
-                        ] = api.metrics.pooled_sample_stderr(stderrs, sizes)
+                        ] = api_metrics.pooled_sample_stderr(stderrs, sizes)
                         # TODO: allow GroupConfigs to choose which variance formula is used, for back-compatibility
                         # To use the old (likely incorrect) variance formula, comment out the above and uncomment this line:
-                        # results[group][stderr] = api.metrics.combined_sample_stderr(stderrs, sizes, metrics=metrics)
+                        # results[group][stderr] = api_metrics.combined_sample_stderr(stderrs, sizes, metrics=metrics)
 
                     results[group]["samples"] = sum(sizes)
 
