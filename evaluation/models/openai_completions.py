@@ -6,12 +6,12 @@ from typing import List, Literal, Optional, Tuple
 
 from tqdm import tqdm
 
-import evaluation.models.utils
-from evaluation import utils
-from evaluation.api.model import LM, TemplateLM
-from evaluation.api.registry import register_model
-from evaluation.models.utils import retry_on_specific_exceptions
-from evaluation.utils import eval_logger
+import utils
+from .. import utils
+from ..api.model import LM, TemplateLM
+from ..api.registry import register_model
+from ..models.utils import retry_on_specific_exceptions
+from ..utils import eval_logger
 
 
 def get_result(response) -> Tuple[float, bool]:
@@ -190,7 +190,7 @@ class OpenaiCompletionsLM(TemplateLM):
         re_ord = utils.Reorderer(requests, _collate)
 
         for chunk in tqdm(
-            list(evaluation.models.utils.chunks(re_ord.get_reordered(), self.batch_size)),
+            list(utils.chunks(re_ord.get_reordered(), self.batch_size)),
             disable=disable_tqdm,
         ):
             inps = []
@@ -405,7 +405,7 @@ class OpenaiChatCompletionsLM(LM):
         # we group requests by their generation_kwargs,
         # so that we don't try to execute e.g. greedy sampling and temp=0.8 sampling
         # in the same batch.
-        grouper = evaluation.models.utils.Grouper(requests, lambda x: str(x.args[1]))
+        grouper = utils.Grouper(requests, lambda x: str(x.args[1]))
         for key, reqs in grouper.get_grouped().items():
             # within each set of reqs for given kwargs, we reorder by token length, descending.
             re_ords[key] = utils.Reorderer(
@@ -417,7 +417,7 @@ class OpenaiChatCompletionsLM(LM):
             # n needs to be 1 because messages in
             # chat completion are not batch but
             # is regarded as a single conversation.
-            chunks = evaluation.models.utils.chunks(re_ord.get_reordered(), n=1)
+            chunks = utils.chunks(re_ord.get_reordered(), n=1)
             for chunk in chunks:
                 contexts, all_gen_kwargs = zip(*chunk)
                 inps = [{"role": "user", "content": context} for context in contexts]

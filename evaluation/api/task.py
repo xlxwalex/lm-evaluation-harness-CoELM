@@ -25,11 +25,11 @@ import datasets
 import numpy as np
 from tqdm import tqdm
 
-from evaluation import utils
-from evaluation.api import samplers
-from evaluation.api.instance import Instance, OutputType
-from evaluation.api.metrics import bits_per_byte, mean, weighted_perplexity
-from evaluation.api.registry import (
+from .. import utils
+from . import samplers
+from .instance import Instance, OutputType
+from .metrics import bits_per_byte, mean, weighted_perplexity
+from .registry import (
     AGGREGATION_REGISTRY,
     DEFAULT_METRIC_REGISTRY,
     get_aggregation,
@@ -37,9 +37,9 @@ from evaluation.api.registry import (
     get_metric_aggregation,
     is_higher_better,
 )
-from evaluation.caching.cache import load_from_cache, save_to_cache
-from evaluation.filters import build_filter_ensemble
-from evaluation.prompts import get_prompt
+from ..caching.cache import load_from_cache, save_to_cache
+from ..filters import build_filter_ensemble
+from ..prompts import get_prompt
 
 
 ALL_OUTPUT_TYPES = [

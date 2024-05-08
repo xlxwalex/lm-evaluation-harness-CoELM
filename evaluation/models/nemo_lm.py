@@ -22,11 +22,11 @@ import numpy as np
 import torch
 from tqdm import tqdm
 
-from evaluation.api.instance import Instance
-from evaluation.api.model import LM
-from evaluation.api.registry import register_model
-from evaluation.models.utils import Collator
-from evaluation.utils import (
+from ..api.instance import Instance
+from ..api.model import LM
+from ..api.registry import register_model
+from ..models.utils import Collator
+from ..utils import (
     eval_logger,
     get_rolling_token_windows,
     make_disjoint_window,

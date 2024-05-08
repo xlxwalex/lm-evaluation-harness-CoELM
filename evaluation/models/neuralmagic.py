@@ -5,12 +5,12 @@ import numpy
 import transformers
 from tqdm import tqdm
 
-import evaluation.models.utils
-from evaluation import utils
-from evaluation.api.instance import Instance
-from evaluation.api.model import LM
-from evaluation.api.registry import register_model
-from evaluation.models.huggingface import HFLM
+import utils
+from .. import utils
+from ..api.instance import Instance
+from ..api.model import LM
+from ..api.registry import register_model
+from ..models.huggingface import HFLM
 
 
 eval_logger = utils.eval_logger
@@ -79,7 +79,7 @@ class SparseMLLM(HFLM):
         model = SparseAutoModelForCausalLM.from_pretrained(
             pretrained,
             revision=revision,
-            torch_dtype=evaluation.models.utils.get_dtype(dtype),
+            torch_dtype=utils.get_dtype(dtype),
             trust_remote_code=trust_remote_code,
             **relevant_kwargs,
         )
@@ -263,7 +263,7 @@ class DeepSparseLM(LM):
         re_ord = utils.Reorderer(requests, _collate)
 
         for chunk in tqdm(
-            list(evaluation.models.utils.chunks(re_ord.get_reordered(), self.batch_size)),
+            list(utils.chunks(re_ord.get_reordered(), self.batch_size)),
             disable=disable_tqdm,
         ):
             batch_inp = []

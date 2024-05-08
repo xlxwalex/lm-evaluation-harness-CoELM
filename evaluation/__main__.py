@@ -6,11 +6,11 @@ import sys
 from functools import partial
 from typing import Union
 
-from evaluation import evaluator, utils
-from evaluation.evaluator import request_caching_arg_to_dict
-from evaluation.logging import EvaluationTracker, WandbLogger
-from evaluation.tasks import TaskManager
-from evaluation.utils import handle_non_serializable, make_table, simple_parse_args_string
+from . import evaluator, utils
+from .evaluator import request_caching_arg_to_dict
+from .logging import EvaluationTracker, WandbLogger
+from .tasks import TaskManager
+from .utils import handle_non_serializable, make_table, simple_parse_args_string
 
 
 def _int_or_none_list_arg_type(

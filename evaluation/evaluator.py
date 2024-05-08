@@ -9,11 +9,11 @@ from typing import TYPE_CHECKING, List, Optional, Union
 import numpy as np
 import torch
 
-import lm_eval.api.metrics
-import lm_eval.api.registry
-import lm_eval.models
-from lm_eval.caching.cache import delete_cache
-from lm_eval.evaluator_utils import (
+import api.metrics
+import api.registry
+import models
+from .caching.cache import delete_cache
+from .evaluator_utils import (
     consolidate_results,
     get_sample_size,
     get_task_list,
@@ -21,9 +21,9 @@ from lm_eval.evaluator_utils import (
     print_writeout,
     run_task_tests,
 )
-from lm_eval.logging.utils import add_env_info, get_git_commit_hash
-from lm_eval.tasks import TaskManager, get_task_dict
-from lm_eval.utils import (
+from .logging.utils import add_env_info, get_git_commit_hash
+from .tasks import TaskManager, get_task_dict
+from .utils import (
     eval_logger,
     handle_non_serializable,
     hash_string,
@@ -33,8 +33,8 @@ from lm_eval.utils import (
 
 
 if TYPE_CHECKING:
-    from lm_eval.api.model import LM
-    from lm_eval.tasks import Task
+    from api.model import LM
+    from tasks import Task
 
 
 @positional_deprecated
@@ -67,7 +67,7 @@ def simple_evaluate(
     """Instantiate and evaluate a model on a list of tasks.
 
     :param model: Union[str, LM]
-        Name of model or LM object, see lm_eval.models.get_model
+        Name of model or LM object, see models.get_model
     :param model_args: Optional[str, dict]
         String or dict arguments for each model class, see LM.create_from_arg_string and LM.create_from_arg_object.
         Ignored if `model` argument is a LM object.
@@ -165,7 +165,7 @@ def simple_evaluate(
             eval_logger.info(
                 f"Initializing {model} model, with arguments: {model_args}"
             )
-            lm = lm_eval.api.registry.get_model(model).create_from_arg_obj(
+            lm = api.registry.get_model(model).create_from_arg_obj(
                 model_args,
                 {
                     "batch_size": batch_size,
@@ -178,7 +178,7 @@ def simple_evaluate(
             eval_logger.info(
                 f"Initializing {model} model, with arguments: {simple_parse_args_string(model_args)}"
             )
-            lm = lm_eval.api.registry.get_model(model).create_from_arg_string(
+            lm = api.registry.get_model(model).create_from_arg_string(
                 model_args,
                 {
                     "batch_size": batch_size,
@@ -187,14 +187,14 @@ def simple_evaluate(
                 },
             )
     else:
-        if not isinstance(model, lm_eval.api.model.LM):
+        if not isinstance(model, api.model.LM):
             raise TypeError
         eval_logger.info("Using pre-initialized model")
         lm = model
 
     if use_cache is not None:
         eval_logger.info(f"Using cache at {use_cache + '_rank' + str(lm.rank) + '.db'}")
-        lm = lm_eval.api.model.CachingLM(
+        lm = api.model.CachingLM(
             lm,
             use_cache
             # each rank receives a different cache db.
@@ -279,7 +279,7 @@ def simple_evaluate(
             "model_args": model_args,
         }
         # add more detailed model info if available
-        if isinstance(lm, lm_eval.models.huggingface.HFLM):
+        if isinstance(lm, models.huggingface.HFLM):
             results["config"].update(lm.get_model_info())
         # add info about execution
         results["config"].update(
@@ -547,17 +547,17 @@ def evaluate(
                     # compute group's pooled metric and stderr
                     results[group][
                         metric
-                    ] = lm_eval.api.metrics.aggregate_subtask_metrics(metrics, sizes)
+                    ] = api.metrics.aggregate_subtask_metrics(metrics, sizes)
                     # TODO: calculate grouped metric using aggregation fn
                     if "N/A" in stderrs:
                         results[group][stderr] = "N/A"
                     else:
                         results[group][
                             stderr
-                        ] = lm_eval.api.metrics.pooled_sample_stderr(stderrs, sizes)
+                        ] = api.metrics.pooled_sample_stderr(stderrs, sizes)
                         # TODO: allow GroupConfigs to choose which variance formula is used, for back-compatibility
                         # To use the old (likely incorrect) variance formula, comment out the above and uncomment this line:
-                        # results[group][stderr] = lm_eval.api.metrics.combined_sample_stderr(stderrs, sizes, metrics=metrics)
+                        # results[group][stderr] = api.metrics.combined_sample_stderr(stderrs, sizes, metrics=metrics)
 
                     results[group]["samples"] = sum(sizes)
 

@@ -7,7 +7,7 @@ from pathlib import Path
 
 from huggingface_hub import HfApi
 
-from evaluation.utils import (
+from ..utils import (
     eval_logger,
     handle_non_serializable,
     hash_string,

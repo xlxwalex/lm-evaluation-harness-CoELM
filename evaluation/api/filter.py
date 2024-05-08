@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Callable, Iterable, List, Union
 
-from evaluation.api.instance import Instance
+from .instance import Instance
 
 
 class Filter(ABC):

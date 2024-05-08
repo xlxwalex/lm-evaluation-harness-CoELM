@@ -22,11 +22,11 @@ from transformers.models.auto.modeling_auto import (
     MODEL_FOR_CAUSAL_LM_MAPPING_NAMES,
     MODEL_FOR_SEQ_TO_SEQ_CAUSAL_LM_MAPPING_NAMES,
 )
-from evaluation import utils
-from evaluation.api.instance import Instance
-from evaluation.api.model import TemplateLM
-from evaluation.api.registry import register_model
-from evaluation.models.utils import (
+from .. import utils
+from ..api.instance import Instance
+from ..api.model import TemplateLM
+from ..api.registry import register_model
+from ..models.utils import (
     Collator,
     clear_torch_cache,
     get_dtype,

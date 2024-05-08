@@ -3,7 +3,7 @@ import os
 
 import dill
 
-from evaluation.utils import eval_logger
+from ..utils import eval_logger
 
 
 MODULE_DIR = os.path.dirname(os.path.realpath(__file__))

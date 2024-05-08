@@ -21,7 +21,7 @@ from typing import (
 import torch
 import transformers
 
-from evaluation.utils import eval_logger
+from ..utils import eval_logger
 
 
 def chunks(iter, n: int = 0, fn=None):

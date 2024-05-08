@@ -4,8 +4,8 @@ import pathlib
 import sys
 from typing import Dict, List, Optional, Tuple, Union
 
-from evaluation.api import metrics
-from evaluation.utils import eval_logger, positional_deprecated
+from .api import metrics
+from .utils import eval_logger, positional_deprecated
 
 
 class TaskOutput:

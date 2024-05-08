@@ -5,8 +5,8 @@ import requests
 from requests.exceptions import RequestException
 from tqdm import tqdm
 
-from evaluation.api.model import LM
-from evaluation.api.registry import register_model
+from ..api.model import LM
+from ..api.registry import register_model
 
 
 logger = logging.getLogger(__name__)

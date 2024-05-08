@@ -2,7 +2,7 @@ from typing import Optional, Union
 
 import torch
 
-import evaluation.models.utils
+import utils
 from evaluation.api.registry import register_model
 from evaluation.models.huggingface import HFLM
 
@@ -99,7 +99,7 @@ please install mamba via `pip install lm-eval[mamba]` or `pip install -e .[mamba
             device=self._device,
             dtype=torch.float16
             if dtype == "auto"
-            else evaluation.models.utils.get_dtype(dtype),
+            else utils.get_dtype(dtype),
         )
 
     def _model_generate(self, context, max_length, stop, **generation_kwargs):

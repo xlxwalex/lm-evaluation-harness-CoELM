@@ -2,10 +2,10 @@ from typing import Any, List, Tuple
 
 from tqdm import tqdm
 
-from evaluation import utils
-from evaluation.api.model import LM
-from evaluation.api.registry import register_model
-from evaluation.models.utils import retry_on_specific_exceptions
+from .. import utils
+from ..api.model import LM
+from ..api.registry import register_model
+from .utils import retry_on_specific_exceptions
 
 
 eval_logger = utils.eval_logger

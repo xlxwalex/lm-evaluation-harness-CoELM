@@ -9,7 +9,7 @@ import numpy as np
 import sacrebleu
 import sklearn.metrics
 
-from evaluation.api.registry import register_aggregation, register_metric
+from .registry import register_aggregation, register_metric
 
 
 eval_logger = logging.getLogger("lm-eval")

@@ -1,8 +1,8 @@
 from functools import partial
 from typing import List
 
-from evaluation.api.filter import FilterEnsemble
-from evaluation.api.registry import get_filter
+from ..api.filter import FilterEnsemble
+from ..api.registry import get_filter
  
 from . import extraction, selection, transformation
 

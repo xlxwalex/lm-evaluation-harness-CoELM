@@ -2,8 +2,8 @@ import ast
 import os
 from typing import Dict
 
-from evaluation import utils
-from evaluation.utils import eval_logger
+from .. import utils
+from ..utils import eval_logger
 
 
 # Prompt library.

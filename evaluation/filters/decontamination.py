@@ -1,5 +1,5 @@
-from evaluation.api.filter import Filter
-from evaluation.api.registry import register_filter
+from ..api.filter import Filter
+from ..api.registry import register_filter
 
 
 @register_filter("decontaminate")

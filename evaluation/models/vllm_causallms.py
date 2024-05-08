@@ -7,11 +7,11 @@ from more_itertools import distribute
 from packaging.version import parse as parse_version
 from tqdm import tqdm
 
-from evaluation.api.instance import Instance
-from evaluation.api.model import TemplateLM
-from evaluation.api.registry import register_model
-from evaluation.models.utils import Collator, undistribute
-from evaluation.utils import (
+from ..api.instance import Instance
+from ..api.model import TemplateLM
+from ..api.registry import register_model
+from ..models.utils import Collator, undistribute
+from ..utils import (
     eval_logger,
     get_rolling_token_windows,
     make_disjoint_window,

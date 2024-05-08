@@ -2,9 +2,9 @@ import json
 from importlib.util import find_spec
 from pathlib import Path
 
-from evaluation import utils
-from evaluation.api.registry import register_model
-from evaluation.models.huggingface import HFLM
+from .. import utils
+from ..api.registry import register_model
+from ..models.huggingface import HFLM
 
 
 eval_logger = utils.eval_logger

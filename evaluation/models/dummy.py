@@ -2,8 +2,8 @@ import random
 
 from tqdm import tqdm
 
-from evaluation.api.model import LM
-from evaluation.api.registry import register_model
+from ..api.model import LM
+from ..api.registry import register_model
 
 
 @register_model("dummy")
