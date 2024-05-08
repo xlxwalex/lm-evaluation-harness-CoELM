@@ -1,6 +1,7 @@
 import json
+import os
 
-with open("wug_data.json", 'r') as fp:
+with open(os.path.join(os.path.dirname(__file__),  "wug_data.json"), 'r') as fp:
     data = json.load(fp)
 
 ENGLISH_SHOTS = [
@@ -20,5 +21,5 @@ for item in data:
     item["text"] = question
     out_data.append(item)
 
-with open("wug_data-5shots.json", "w") as fp:
+with open(os.path.join(os.path.dirname(__file__),  "wug_data-5shots.json"), "w") as fp:
     fp.write(json.dumps(out_data, indent=4))

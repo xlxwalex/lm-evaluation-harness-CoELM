@@ -1,6 +1,87 @@
-# Language Model Evaluation Harness
+# Language Model Evaluation Harness for CoELM
+
+## Q&A
+### 1 What are the differences compared to the original repository?
+
+1. We have modified the [Language Model Evaluation Harness](https://github.com/EleutherAI/lm-evaluation-harness) framework to suit our [CoELM](https://github.com/xlxwalex/CoELM) model. This allows for model evaluation without the need to convert parameter formats to Huggingface.
+
+2. We have added the [Wug Test](https://github.com/xlxwalex/lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug) task and introduced the method [`loglikelihood_with_multi_choices`](https://github.com/xlxwalex/lm-evaluation-harness-CoELM/blob/216f663dab20d501170aea5b41e22ff70b3eda4d/evaluation/models/coelm.py#L910) to support the evaluation of the Wug Test (please note that we have only modified the corresponding code for the Huggingface and CoELM models).
+
+### 2  What is Wug Test?
+
+The Wug Test is an experimental paradigm in which a participant (Language Model) is asked to provide an inflected or derived form of a nonce word.
+We followed the methodology of the paper "[Counting the Bugs in ChatGPT's Wugs: A Multilingual Investigation into the Morphological Capabilities of a Large Language Model](https://arxiv.org/abs/2310.15113)" to use the Wug Test to evaluate CoELM as well as other baseline models.
+
+## Data and Environment Preparation
+### 1. Acquire Data for Wug Test
+
+> **Note**
+> 
+> Due to the [Wug Test](https://github.com/xlxwalex/lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug) data in the repository being password protected, we do not include this part of the data directly in the repository. You will need to apply within the repository to obtain the data and its extraction password.
+> 
+> For instructions on how to apply for the data, please refer to the [README file](https://github.com/dmort27/chatgpts-wugs/tree/main/data) in the repository.
+
+1. After you have obtained the password, please unzip [chatgpts-wugs/data/chatgpts-wugs.7z](https://github.com/dmort27/chatgpts-wugs/blob/main/data/chatgpts-wugs.7z), which will extract the secret_data folder. Move this folder to the [lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug](https://github.com/xlxwalex/lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug) directory of this repository.
+
+2. To convert the Wug test data format, please execute the [convert_wug_to_harness.py](lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug/convert_wug_to_harness.py) file located in the [lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug](https://github.com/xlxwalex/lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug) directory:
+```bash
+python convert_wug_to_harness.py
+```
+
+This will create a converted file named `wug_data.json` in the directory.
+
+3. (Optional) Due to the design of Language Model Evaluation Harness for few-shot tasks, which selects other samples in the data as prompts, this introduces a large number of nonce samples. We found that this significantly reduces the performance of baseline models. Therefore, following the Wug Test, we used the five samples provided by it for 5-shot testing. You can use the [convertor_5shots.py](https://github.com/xlxwalex/lm-evaluation-harness-CoELM/blob/main/evaluation/tasks/wug/convertor_5shots.py) script to obtain the converted prompts:
+```bash
+python convertor_5shots.py
+```
+
+This will create a converted file named `wug_data-5shots.json` in the directory
+
+### 2. Environment Preparation
+
+In this repository's [requirements.txt](https://github.com/xlxwalex/lm-evaluation-harness-CoELM/blob/main/requirements.txt), the necessary packages for Language Model Evaluation Harness are provided. However, in order to evaluate our CoELM model, you need to install the dependency packages from the [requirements.txt](https://github.com/xlxwalex/CoELM/blob/main/requirements.txt) in the CoELM repository before testing.
+
+## Basic Usage
+The evaluation script is located in the [CoELM](https://github.com/xlxwalex/CoELM) repository. Please run the [`evaluate.py`](https://github.com/xlxwalex/CoELM/scripts/evaluate.py) file in the scripts directory of the [CoELM](https://github.com/xlxwalex/CoELM/scripts/) repository to evaluate the Huggingface model or CoELM.
+
+1. To evaluate a model hosted on the `HuggingFace Hub` (e.g. Pythia-410M) on hellaswag, you can use the following command (this assumes you are using a CUDA-compatible GPU):
+```bash
+python evaluate.py --model hf \
+    --output_path checkpoints/CoELM/results/ \
+    --device cuda:0 \
+    --model_args pretrained=EleutherAI/pythia-410m,dtype="float"\
+    --tasks hellaswag \
+    --batch_size auto \
+    --num_fewshot 0
+```
+**Note:** The meaning of the parameters is consistent with the Language Model Evaluation Harness. You can refer to the original README section below for details.
+
+2. Similarly, To evaluate CoELM model on Wug Test, you can use the following command:
+```bash
+python evaluate.py --model coelm \
+    --output_path checkpoints/CoELM/results/ \
+    --device cuda:0 \
+    --model_args pretrained=./checkpoints/CoELM/,dtype="float",model_name=coelm_model.pth,dtype="float"\
+    --tasks wug \
+    --batch_size auto \
+    --num_fewshot 0
+```
+**Note:** You can specify the name of the model file in the 'pretrained' folder using model_name. If left empty, it defaults to 'pytorch_model.bin'.
+
+> **Note**
+> 
+> If you want to test the few shot capability of models on Wug test using wug_data-5shots.json, set the num_fewshot parameter to 0 and modify the data_files field in the [wug.yaml](https://github.com/xlxwalex/lm-evaluation-harness-CoELM/blob/main/evaluation/tasks/wug/wug.yaml) configuration file to the value `wug_data-5shots.json`.
+> 
+
+---
+## Language Model Evaluation Harness
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10256836.svg)](https://doi.org/10.5281/zenodo.10256836)
+
+> **Note**
+> 
+> To avoid conflicts with libraries already installed by the user, the 'lm_eval' component in this repository has been renamed to 'evaluation'. Therefore, the usage method below may conflict with the code in this repository.
+> 
 
 ## Announcement
 **A new v0.4.0 release of lm-evaluation-harness is available** !

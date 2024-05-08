@@ -4,12 +4,12 @@ import os
 from functools import partial
 from typing import Dict, List, Mapping, Optional, Union
 
-from lm_eval import utils
-from lm_eval.api.task import ConfigurableTask, Task
+from evaluation import utils
+from evaluation.api.task import ConfigurableTask, Task
 
 
 class TaskManager:
-    """TaskManager indexes all tasks from the default `lm_eval/tasks/`
+    """TaskManager indexes all tasks from the default `evaluation/tasks/`
     and an optional directory if provided.
 
     """
@@ -386,7 +386,7 @@ def get_task_dict(
     """Creates a dictionary of task objects from either a name of task, config, or prepared Task object.
 
     :param task_name_list: List[Union[str, Dict, Task]]
-        Name of model or LM object, see lm_eval.models.get_model
+        Name of model or LM object, see evaluation.models.get_model
     :param task_manager: TaskManager = None
         A TaskManager object that stores indexed tasks. If not set,
         task_manager will load one. This should be set by the user

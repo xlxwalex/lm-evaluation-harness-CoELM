@@ -2,7 +2,7 @@ task: wug
 dataset_path: json
 dataset_name: null
 dataset_kwargs:
-  data_files: /home/xlxw/projects/CxGLearner/CxGLM/wugtest/tasks/wug/wug_data.json
+  data_files: wug_data.json
 validation_split: train
 output_type: loglikelihood_with_multi_choices
 doc_to_text: "{{text.split(' ')[:-1]|join(' ')}} "
