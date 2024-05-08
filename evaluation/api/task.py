@@ -899,9 +899,10 @@ class ConfigurableTask(Task):
                     )
 
     def download(self, dataset_kwargs: Optional[Dict[str, Any]] = None) -> None:
-        if self.DATASET_NAME is None and 'data_files' in dataset_kwargs:
+        if self.DATASET_NAME is None and isinstance(dataset_kwargs, dict) and 'data_files' in dataset_kwargs:
             dataset_kwargs['data_files'] = os.path.join(os.path.dirname(__file__),
-                                    "../tasks/{}/{}".format(self.config.task, dataset_kwargs['data_files']))
+                                                        "../tasks/{}/{}".format(self.config.task,
+                                                                                dataset_kwargs['data_files']))
         self.dataset = datasets.load_dataset(
             path=self.DATASET_PATH,
             name=self.DATASET_NAME,
@@ -1143,7 +1144,7 @@ class ConfigurableTask(Task):
     def construct_requests(
         self, doc: dict, ctx: str, **kwargs
     ) -> Union[List[Instance], Instance]:
-        if self.OUTPUT_TYPE == "loglikelihood":
+        if self.OUTPUT_TYPE == "loglikelihood" or self.OUTPUT_TYPE == "loglikelihood_with_multi_choices":
             arguments = (ctx, self.doc_to_target(doc))
         elif self.OUTPUT_TYPE == "loglikelihood_rolling":
             arguments = (self.doc_to_target(doc),)
@@ -1205,7 +1206,7 @@ class ConfigurableTask(Task):
 
         result_dict = {}
         use_metric = list(self._metric_fn_list.keys())
-        if self.OUTPUT_TYPE == "loglikelihood":
+        if self.OUTPUT_TYPE == "loglikelihood" or self.OUTPUT_TYPE == "loglikelihood_with_multi_choices":
             results = results[0]
             ll, is_greedy = results
             return {
