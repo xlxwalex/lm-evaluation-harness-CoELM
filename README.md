@@ -1,4 +1,8 @@
 # Language Model Evaluation Harness for CoELM
+<a href="http://www.repostatus.org/#active"><img src="http://www.repostatus.org/badges/latest/active.svg" /></a>
+<a href="https://github.com/xlxwalex/HyCxG/blob/main/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/xlxwalex/lm-evaluation-harness-CoELM.svg"> </a>
+
+The official evaluation code for paper "CoELM: Construction-Enhanced Language Modeling"
 
 ## Q&A
 ### 1 What are the differences compared to the original repository?
