@@ -23,7 +23,7 @@ We followed the methodology of the paper "[Counting the Bugs in ChatGPT's Wugs: 
 
 1. After you have obtained the password, please unzip [chatgpts-wugs/data/chatgpts-wugs.7z](https://github.com/dmort27/chatgpts-wugs/blob/main/data/chatgpts-wugs.7z), which will extract the secret_data folder. Move this folder to the [lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug](https://github.com/xlxwalex/lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug) directory of this repository.
 
-2. To convert the Wug test data format, please execute the [convert_wug_to_harness.py](lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug/convert_wug_to_harness.py) file located in the [lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug](https://github.com/xlxwalex/lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug) directory:
+2. To convert the Wug test data format, please execute the [convert_wug_to_harness.py](https://github.com/xlxwalex/lm-evaluation-harness-CoELM/blob/main/evaluation/tasks/wug/convert_wug_to_harness.py) file located in the [lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug](https://github.com/xlxwalex/lm-evaluation-harness-CoELM/tree/main/evaluation/tasks/wug) directory:
 ```bash
 python convert_wug_to_harness.py
 ```
@@ -42,7 +42,7 @@ This will create a converted file named `wug_data-5shots.json` in the directory
 In this repository's [requirements.txt](https://github.com/xlxwalex/lm-evaluation-harness-CoELM/blob/main/requirements.txt), the necessary packages for Language Model Evaluation Harness are provided. However, in order to evaluate our CoELM model, you need to install the dependency packages from the [requirements.txt](https://github.com/xlxwalex/CoELM/blob/main/requirements.txt) in the CoELM repository before testing.
 
 ## Basic Usage
-The evaluation script is located in the [CoELM](https://github.com/xlxwalex/CoELM) repository. Please run the [`evaluate_models.py`](https://github.com/xlxwalex/CoELM/blob/main/scripts/evaluate_models.py) file in the scripts directory of the [CoELM](https://github.com/xlxwalex/CoELM/scripts/) repository to evaluate the Huggingface model or CoELM.
+The evaluation script is located in the [CoELM](https://github.com/xlxwalex/CoELM) repository. Please run the [`evaluate_models.py`](https://github.com/xlxwalex/CoELM/blob/main/scripts/evaluate_models.py) file in the scripts directory of the [CoELM](https://github.com/xlxwalex/CoELM/tree/main/scripts) repository to evaluate the Huggingface model or CoELM.
 
 1. To evaluate a model hosted on the `HuggingFace Hub` (e.g. Pythia-410M) on hellaswag, you can use the following command (this assumes you are using a CUDA-compatible GPU):
 ```bash
